@@ -16,4 +16,17 @@ public class UserRequestDto {
     private Long phone;
 
     public UserRequestDto() {}
+
+    public UserRequestDto(String name, String lastname, String email,
+                          String password, String address, LocalDate dateOfBirth,
+                          Long dni, Long phone) {
+        this.name = name;
+        this.lastname = lastname;
+        this.email = email;
+        this.password = password;
+        this.address = address;
+        this.dateOfBirth = dateOfBirth;
+        this.dni = dni;
+        this.phone = phone;
+    }
 }

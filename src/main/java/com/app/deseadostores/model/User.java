@@ -1,9 +1,13 @@
 package com.app.deseadostores.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -23,6 +27,10 @@ public class User {
     private Long dni;
     private Long phone;
     private boolean enabled;
+
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<Store> stores = new LinkedHashSet<>();
 
     public User() {}
 
