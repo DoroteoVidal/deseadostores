@@ -6,7 +6,6 @@ import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -26,7 +25,7 @@ public class User {
     private LocalDate dateOfBirth;
     private Long dni;
     private Long phone;
-    private boolean enabled;
+    private boolean enabled = true;
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
@@ -42,7 +41,6 @@ public class User {
         this.dateOfBirth = dateOfBirth;
         this.dni = dni;
         this.phone = phone;
-        this.enabled = true;
         this.address = address;
         this.password = password;
     }
