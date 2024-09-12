@@ -17,4 +17,6 @@ public class StoreResponseDto {
     private List<String> socialMediaLinks;
     //private List<Offer> offers;
     private List<String> categories;
+
+    public StoreResponseDto() {}
 }
