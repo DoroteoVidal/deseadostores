@@ -11,13 +11,13 @@ import java.util.Set;
  */
 public interface BaseService<T, V> {
 
-    T getById(Long id);
+    T getById(Long id) throws Exception;
 
-    Set<T> getAll();
+    Set<T> getAll() throws Exception;
 
-    T save(V entityRequest);
+    T save(V entityRequest) throws Exception;
 
-    T update(Long id, V entityRequest);
+    T update(Long id, V entityRequest) throws Exception;
 
-    void delete(Long id);
+    void delete(Long id) throws Exception;
 }
