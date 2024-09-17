@@ -7,6 +7,7 @@ import com.app.deseadostores.model.User;
 import com.app.deseadostores.repository.UserRepository;
 import com.app.deseadostores.service.UserService;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -79,7 +80,10 @@ public class UserServiceImpl implements UserService {
             throw new UserNotFoundException("El usuario que desea actualizar es menor de edad");
         }
 
-        return null;
+        BeanUtils.copyProperties(userDto, dbUser);
+        User updatedUser = userRepository.save(dbUser);
+
+        return mapper.map(updatedUser, UserResponseDto.class);
     }
 
     @Override
