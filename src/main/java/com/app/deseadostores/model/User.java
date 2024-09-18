@@ -40,16 +40,17 @@ public class User implements UserDetails {
 
     public User() {}
 
-    public User(String name, String lastname, String email, LocalDate dateOfBirth,
-                Long dni, Long phone, String address, String password) {
+    public User(String name, String lastname, String email, String password,
+                String address, LocalDate dateOfBirth,
+                Long dni, Long phone) {
         this.name = name;
         this.lastname = lastname;
         this.email = email;
+        this.password = password;
+        this.address = address;
         this.dateOfBirth = dateOfBirth;
         this.dni = dni;
         this.phone = phone;
-        this.address = address;
-        this.password = password;
     }
 
     @Override
