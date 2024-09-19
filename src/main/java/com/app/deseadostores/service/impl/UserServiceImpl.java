@@ -45,6 +45,7 @@ public class UserServiceImpl implements UserService {
     private PrincipalProvider principalProvider;
 
     @Override
+    @Transactional(readOnly = true)
     public User getActualUser() throws UserNotFoundException {
         return userRepository
                 .findUserByEmailIgnoreCaseAndEnabledTrue(principalProvider
@@ -74,7 +75,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserResponseDto save(UserRequestDto userDto) throws UserNotFoundException {
+    public UserResponseDto save(UserRequestDto userDto) throws UserNotFoundException, IllegalArgumentException {
         if(!userDto.getPassword().equals(userDto.getPasswordConfirm())) {
             throw new UserNotFoundException("Las contraseñas no son identicas, intente nuevamente");
         }
@@ -94,7 +95,7 @@ public class UserServiceImpl implements UserService {
         Set<UserRole> roles = new HashSet<>();
         UserRole userRole = new UserRole(user, role);
         roles.add(userRole);
-        user.setUserRoles(roles);
+        user.getUserRoles().addAll(roles);
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         User savedUser = userRepository.save(user);
 
@@ -102,6 +103,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public UserResponseDto update(Long userId, UserRequestDto userDto) throws UserNotFoundException {
         User dbUser = userRepository
                 .findByIdAndEnabledTrue(userId)
@@ -123,6 +125,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void delete(Long userId) throws UserNotFoundException {
         User user = userRepository
                 .findByIdAndEnabledTrue(userId)
@@ -132,6 +135,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public UserResponseDto updateMyUserInformation(UserUpdateDto userDto) throws UserNotFoundException {
         User myUser = this.getActualUser();
 
@@ -146,6 +150,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public UserCredentialsDto getMyUserCredentials() throws UserNotFoundException {
         User myUser = this.getActualUser();
 
@@ -153,6 +158,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void updateMyUserCredentials(UserUpdateCredentialsDto userCredentialsDto) throws UserNotFoundException {
         if(!userCredentialsDto.getEmail().equals(userCredentialsDto.getEmailConfirmation())) {
             throw new UserNotFoundException("Los emails no son identicos, intente nuevamente");
@@ -170,6 +176,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void deleteMyUser() throws UserNotFoundException {
         User myUser = this.getActualUser();
         myUser.setEnabled(false);
